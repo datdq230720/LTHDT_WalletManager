@@ -15,7 +15,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author nhocd
+ * @author linhth
  */
 public class HelperService {
 
@@ -145,7 +145,6 @@ public class HelperService {
     }
     
     public void changePasswordWithOTP(JFrame parent, User user) {
-
         String oldPass = JOptionPane.showInputDialog(parent, "Nhập mật khẩu cũ:");
         if (oldPass == null) return;
 

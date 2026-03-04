@@ -7,7 +7,7 @@ package ptit.walletmanager.service;
 import java.util.Random;
 /**
  *
- * @author nhocd
+ * @author linhth
  */
 public class OTPService {
     private static String otp;

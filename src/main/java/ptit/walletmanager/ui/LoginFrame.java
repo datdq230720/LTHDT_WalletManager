@@ -12,7 +12,7 @@ import java.awt.*;
 
 /**
  *
- * @author nhocd
+ * @author linhth
  */
 public class LoginFrame extends JFrame {
     WalletService service = new WalletService();

@@ -7,7 +7,7 @@ package ptit.walletmanager.service;
 import java.security.MessageDigest;
 /**
  *
- * @author nhocd
+ * @author linhth
  */
 public class HashUtil {
      public static String hash(String input) {
@@ -17,8 +17,6 @@ public class HashUtil {
             StringBuilder sb = new StringBuilder();
             for (byte b : bytes) sb.append(String.format("%02x", b));
             return sb.toString();
-        } catch (Exception e) {
-            return input;
-        }
+        } catch (Exception e) { return input; }
     }
 }

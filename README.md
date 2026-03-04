@@ -47,7 +47,7 @@ project-root/
 └── README.md                   # Tài liệu hướng dẫn
 
 
-# 👥 Thành viên thực hiện (Nhóm 05)
+## 👥 Thành viên thực hiện (Nhóm 05)
 
 Dưới đây là danh sách thành viên và phân công nhiệm vụ chi tiết trong dự án đồ án môn Lập trình hướng đối tượng (OOP):
 
@@ -61,7 +61,7 @@ Dưới đây là danh sách thành viên và phân công nhiệm vụ chi tiế
 
 ---
 
-# ⚙️ Hướng dẫn cài đặt và Khởi chạy
+## ⚙️ Hướng dẫn cài đặt và Khởi chạy
 
 Để chạy ứng dụng **Wallet Manager** trên máy tính cá nhân, vui lòng thực hiện theo các bước sau:
 

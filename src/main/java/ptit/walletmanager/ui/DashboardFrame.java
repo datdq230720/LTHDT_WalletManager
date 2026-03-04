@@ -4,58 +4,86 @@
  */
 package ptit.walletmanager.ui;
 
-import ptit.walletmanager.service.HelperService;
 import ptit.walletmanager.service.*;
 import ptit.walletmanager.model.*;
 
 import javax.swing.*;
+import java.awt.*;
 /**
  *
  * @author nhocd
  */
 public class DashboardFrame extends JFrame {
     
-     public DashboardFrame(WalletService service, User user) {
-        setTitle("User Dashboard - " + user.getUsername());
-        setSize(300,250);
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+    private WalletService service;
+    private User user;
+    private JLabel balanceLabel;
+    private HelperService helper;
 
-        JLabel balance = new JLabel("Balance: " + user.getBalance());
+    public DashboardFrame(WalletService service, User user) {
 
-        JButton transfer = new JButton("Transfer");
-        JButton history = new JButton("History");
-        
+        this.service = service;
+        this.user = user;
+        this.helper = new HelperService(service);
+
+        setTitle("Wallet Dashboard - " + user.getUsername());
+        setSize(400, 300);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // ===== TOP PANEL =====
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        topPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+
+        JLabel welcome = new JLabel("Welcome, " + user.getUsername());
+        welcome.setFont(new Font("Arial", Font.BOLD, 16));
+
+        balanceLabel = new JLabel("Balance: " + user.getBalance() + " đ");
+        balanceLabel.setFont(new Font("Arial", Font.PLAIN, 14));
+
+        topPanel.add(welcome);
+        topPanel.add(Box.createVerticalStrut(10));
+        topPanel.add(balanceLabel);
+
+        add(topPanel, BorderLayout.NORTH);
+
+        // ===== CENTER PANEL =====
+        JPanel centerPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        centerPanel.setBorder(BorderFactory.createEmptyBorder(10, 40, 10, 40));
+
+        JButton transferBtn = new JButton("Transfer Money");
+        JButton historyBtn = new JButton("View History");
+        JButton changePassBtn = new JButton("Change Password");
+
+        centerPanel.add(transferBtn);
+        centerPanel.add(historyBtn);
+        centerPanel.add(changePassBtn);
+
+        add(centerPanel, BorderLayout.CENTER);
+
+        // ===== BOTTOM PANEL =====
+        JPanel bottomPanel = new JPanel();
         JButton logoutBtn = new JButton("Logout");
+        bottomPanel.add(logoutBtn);
 
-        add(balance);
-        add(transfer);
-        add(history);
-        add(logoutBtn);
-        
-        HelperService helper = new HelperService(service);
+        add(bottomPanel, BorderLayout.SOUTH);
 
-        transfer.addActionListener(e -> {
-            String to = JOptionPane.showInputDialog("To:");
+        // ===== ACTIONS =====
+
+        transferBtn.addActionListener(e -> {
+            String to = JOptionPane.showInputDialog(this, "Nhập username người nhận:");
             helper.transferBalance(this, user, to);
+            refreshBalance();
         });
 
-        history.addActionListener(e -> {
-            
-            String username = user.getUsername();
-            if (username == null) return;
+        historyBtn.addActionListener(e ->
+                helper.showTransactionTable(this, user.getUsername())
+        );
 
-            StringBuilder sb = new StringBuilder();
+        changePassBtn.addActionListener(e -> changePassword());
 
-            for (String h : service.getUserHistory(username)) {
-                if (h.contains(username)) {
-                    sb.append(h).append("\n");
-                }
-            }
-            if (sb.length() == 0) sb.append("Không có lịch sử!");
-            JOptionPane.showMessageDialog(this, sb.toString());
-        });
-        
-        
         logoutBtn.addActionListener(e -> {
             Session.logout();
             dispose();
@@ -63,5 +91,15 @@ public class DashboardFrame extends JFrame {
         });
 
         setVisible(true);
+    }
+
+    // ===== REFRESH BALANCE =====
+    private void refreshBalance() {
+        balanceLabel.setText("Balance: " + user.getBalance() + " đ");
+    }
+
+    // ===== CHANGE PASSWORD WITH OTP =====
+    private void changePassword() {
+        helper.changePasswordWithOTP(this, user);
     }
 }

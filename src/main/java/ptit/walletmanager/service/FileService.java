@@ -35,18 +35,37 @@ public class FileService {
         } catch (Exception ignored) {}
     }
 
-    public static List<String> loadHistory() {
-        List<String> list = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(HISTORY_FILE))) {
-            String line;
-            while ((line = br.readLine()) != null) list.add(line);
-        } catch (Exception ignored) {}
-        return list;
+    public static void saveHistory(List<Transaction> history) {
+        try (PrintWriter pw = new PrintWriter("history.txt")) {
+            for (Transaction t : history) {
+                pw.println(t.toFile()); 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    
+    public static List<Transaction> loadHistory() {
 
-    public static void saveHistory(List<String> history) {
-        try (PrintWriter pw = new PrintWriter(HISTORY_FILE)) {
-            for (String h : history) pw.println(h);
-        } catch (Exception ignored) {}
+        List<Transaction> list = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("history.txt"))) {
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+
+                Transaction t = Transaction.fromFile(line);
+
+                if (t != null) {
+                    list.add(t);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }

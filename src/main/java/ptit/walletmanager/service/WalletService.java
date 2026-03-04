@@ -13,7 +13,7 @@ import java.util.*;
 public class WalletService {
     
     public Map<String, User> users;
-    public List<String> history;
+    private List<Transaction> history;
 
     public WalletService() {
         users = FileService.loadUsers();
@@ -37,7 +37,8 @@ public class WalletService {
         if (users.containsKey(u) || u.length() < 3 || p.length() < 3) return false;
         users.put(u, new User(u, HashUtil.hash(p), 100, false));
         FileService.saveUsers(users);
-        saveHistory(users.get("admin").getUsername() + "->" + "CreateAccount["+u+"]" + ":10");
+        Transaction trans = new Transaction(users.get("admin").getUsername(), u, 10, "CREATE");
+        saveHistory(trans);
         return true;
     }   
 
@@ -49,7 +50,8 @@ public class WalletService {
         receiver.setBalance(receiver.getBalance() + amount);
 
         FileService.saveUsers(users);
-        saveHistory(from.getUsername() + "->" + to + ":" + amount);
+        Transaction trans = new Transaction(from.getUsername(), to, amount, "TRANSFER");
+        saveHistory(trans);
         return true;
     }
 
@@ -60,27 +62,43 @@ public class WalletService {
         return true;
     }
     
+    public boolean checkPassword(String username, String rawPassword) {
+        User u = users.get(username);
+        if (u == null) return false;
+
+        return u.getPassword().equals(HashUtil.hash(rawPassword));
+    }
+    
     public boolean deleteUser(String username) {
         User u = users.remove(username);
         if (u != null) {
             // hoàn điểm về admin
             users.get("admin").setBalance(users.get("admin").getBalance() + u.getBalance());
             FileService.saveUsers(users);
-            saveHistory("DeleteAccount["+u.getUsername()+"]" + "->" + users.get("admin").getUsername() + ":" + u.getBalance());
+            Transaction trans = new Transaction(u.getUsername(), users.get("admin").getUsername(), u.getBalance(), "DELETE");
+            saveHistory(trans);
             return true;
         }
         return false;
     }
-    
-    public List<String> getUserHistory(String username) {
-        return history.stream()
-                .filter(h -> h.contains(username))
-                .toList();
+
+    public void saveHistory(Transaction trans) {
+        history.add(trans);
+        FileService.saveHistory(history);
     }
     
-    public void saveHistory(String mess){
-        history.add(mess);
-        FileService.saveHistory(history);
+    public List<Transaction> getHistoryByUser(String username) {
 
+        List<Transaction> result = new ArrayList<>();
+
+        for (Transaction t : history) {
+            if (t.getFrom().equals(username) || 
+                t.getTo().equals(username)) {
+
+                result.add(t);
+            }
+        }
+
+        return result;
     }
 }

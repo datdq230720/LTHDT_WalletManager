@@ -51,13 +51,13 @@ project-root/
 
 Dưới đây là danh sách thành viên và phân công nhiệm vụ chi tiết trong dự án đồ án môn Lập trình hướng đối tượng (OOP):
 
-| STT | Họ và tên | MSSV | Vai trò | Nhiệm vụ chi tiết |
-| :--- | :--- | :--- | :--- | :--- |
-| 1 | **Lê Vũ Huy Trung** | B24DTCN024 | **Trưởng nhóm** | Thiết kế kiến trúc hệ thống, quản lý mã nguồn, viết logic `WalletService`. |
-| 2 | **Đinh Quốc Đạt** | B24DTCN020 | **Thành viên** | Xử lý lưu trữ dữ liệu (`FileService`), thiết kế các lớp Model (`User`, `Transaction`). |
-| 3 | **Phan Thanh Minh Châu** | B24DTCN019 | **Thành viên** | Thiết kế giao diện đồ họa (UI) cho `AdminFrame` và `UserDashboard`. |
-| 4 | **Nguyễn Thế Quang** | B24DTCN022 | **Thành viên** | Triển khai bảo mật: Hash mật khẩu (MD5) và cơ chế xác thực OTP. |
-| 5 | **Trần Huy Linh** | K24DTCN298 | **Thành viên** | Kiểm thử hệ thống (Unit Test), viết báo cáo đồ án và hoàn thiện tài liệu. |
+| STT | Họ và tên | MSSV | Vai trò |
+| :--- | :--- | :--- | :--- |
+| 1 | **Lê Vũ Huy Trung** | B24DTCN024 | **Trưởng nhóm** | 
+| 2 | **Đinh Quốc Đạt** | B24DTCN020 | **Thành viên** |
+| 3 | **Phan Thanh Minh Châu** | B24DTCN019 | **Thành viên** |
+| 4 | **Nguyễn Thế Quang** | B24DTCN022 | **Thành viên** |
+| 5 | **Trần Huy Linh** | K24DTCN298 | **Thành viên** |
 
 ---
 
